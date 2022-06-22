@@ -8,8 +8,16 @@ module.exports = {
         {
           title: "space-1",
           description: "first space",
-          backgroundColor: "green",
-          color: "blue",
+          backgroundColor: "#148F77",
+          color: "#2874A6",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: "space-2",
+          description: "second space",
+          backgroundColor: "",
+          color: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
