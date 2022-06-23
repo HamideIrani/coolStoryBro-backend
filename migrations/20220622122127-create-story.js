@@ -15,7 +15,7 @@ module.exports = {
       content: {
         type: Sequelize.TEXT,
       },
-      imgUrl: {
+      imageUrl: {
         type: Sequelize.STRING,
       },
       createdAt: {

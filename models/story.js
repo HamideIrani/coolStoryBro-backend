@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      story.belongsTo(models.space, { foreignKey: "spaceId" });
     }
   }
   story.init(
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       content: DataTypes.TEXT,
-      imgUrl: DataTypes.STRING,
+      imageUrl: DataTypes.STRING,
     },
     {
       sequelize,
