@@ -87,7 +87,7 @@ router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
   delete req.user.dataValues["password"];
 
-  res.status(200).send({ ...req.user.dataValues, space });
+  res.status(200).send({ user: req.user.dataValues, space });
 });
 
 module.exports = router;
