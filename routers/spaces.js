@@ -5,6 +5,8 @@ const auth = require("../auth/middleware");
 
 const router = new Router();
 
+// Get all spaces
+
 router.get("/", async (request, response) => {
   try {
     const spaces = await Space.findAndCountAll();
@@ -53,6 +55,29 @@ router.post("/:id/stories", auth, async (req, res) => {
   });
 
   return res.status(201).send({ message: "Story created", story });
+});
+
+// Delete a story from my space
+router.delete("/:spaceId/stories/:storyId", auth, async (req, res, next) => {
+  try {
+    console.log("bbbbbbb");
+    const { spaceId, storyId } = req.params;
+    const story = await Story.findByPk(storyId, { include: [Space] });
+    if (!story) {
+      return res.status(404).send("Story not found");
+    }
+
+    // Check if this user is the owner of the space
+    if (story.space.userId !== req.user.id) {
+      return res.status(401).send("You're not authorized to delete this story");
+    }
+
+    await story.destroy();
+
+    res.send({ message: "ok", storyId });
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;
