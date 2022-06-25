@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Space = require("../models").space;
 const Story = require("../models").story;
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
@@ -13,6 +14,8 @@ router.get("/", async (request, response) => {
     next(e);
   }
 });
+
+// Post a new story
 
 router.get("/:id", async (request, response) => {
   const { id } = request.params;
@@ -33,6 +36,23 @@ router.get("/:id", async (request, response) => {
   console.log(space.stories);
 
   response.status(200).send({ message: "ok", space });
+});
+
+router.post("/:id/stories", auth, async (req, res) => {
+  const { name, imageUrl, content } = req.body;
+
+  if (!name) {
+    return res.status(400).send({ message: "A story must have a name" });
+  }
+
+  const story = await Story.create({
+    name,
+    imageUrl,
+    content,
+    spaceId: req.params.id,
+  });
+
+  return res.status(201).send({ message: "Story created", story });
 });
 
 module.exports = router;
