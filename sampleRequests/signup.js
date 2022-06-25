@@ -8,7 +8,7 @@ async function signUpExample() {
       // you will have to change this email (emails must be unique)
       email: "testwithaxios@test.com",
       password: "testwithaxios1234",
-      name: "testwithaxios"
+      name: "testwithaxios",
     });
     console.log("RESPONSE FROM SERVER", response.data);
   } catch (error) {
