@@ -60,7 +60,6 @@ router.post("/:id/stories", auth, async (req, res) => {
 // Delete a story from my space
 router.delete("/:spaceId/stories/:storyId", auth, async (req, res, next) => {
   try {
-    console.log("bbbbbbb");
     const { spaceId, storyId } = req.params;
     const story = await Story.findByPk(storyId, { include: [Space] });
     if (!story) {
@@ -78,6 +77,22 @@ router.delete("/:spaceId/stories/:storyId", auth, async (req, res, next) => {
   } catch (e) {
     next(e);
   }
+});
+
+// Edit my space
+router.patch("/:id", auth, async (req, res) => {
+  const space = await Space.findByPk(req.params.id);
+  if (!space.userId === req.user.id) {
+    return res
+      .status(403)
+      .send({ message: "You are not authorized to edit this space" });
+  }
+
+  const { title, description, backgroundColor, color } = req.body;
+
+  await space.update({ title, description, backgroundColor, color });
+
+  return res.status(200).send({ space });
 });
 
 module.exports = router;
